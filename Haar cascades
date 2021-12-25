@@ -1,0 +1,53 @@
+#人臉或眼睛偵測
+
+import argparse
+import ntpath
+import os
+import time
+
+import cv2
+import imutils
+from imutils.video import WebcamVideoStream
+
+detectors = {
+    "eye": os.path.sep.join([ntpath.dirname(cv2.__file__), 'data', 'haarcascade_eye.xml']),
+    "face": os.path.sep.join([ntpath.dirname(cv2.__file__), 'data', 'haarcascade_frontalface_default.xml'])
+}
+
+ap = argparse.ArgumentParser()
+ap.add_argument("-p", "--part", type=str, choices=["eye", "face"], default="eye")
+args = vars(ap.parse_args())
+
+# 啟動WebCam
+vs = WebcamVideoStream().start()
+time.sleep(1)
+# start = time.time()
+# fps = vs.stream.get(cv2.CAP_PROP_FPS)
+# print("Frames per second using cv2.CAP_PROP_FPS : {0}".format(fps))
+
+while True:
+    frame = vs.read()
+    img = frame.copy()
+    img = imutils.resize(img, width=300)                                  #等比例缩放
+
+    part = "eye"
+    gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    detector = cv2.CascadeClassifier(detectors[part])                     #Haar cascades
+    rects = detector.detectMultiScale(gray, scaleFactor=1.1, minNeighbors=3, minSize=(15, 15))
+
+    # 繪出偵測結果 (記得將偵測的座標轉回原本的frame大小)
+    ratio = frame.shape[1] / img.shape[1]
+    for rect in rects:
+        rect = rect * ratio
+        (x, y, w, h) = rect.astype("int")
+        cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 0, 255), 2)
+
+        cv2.imshow("Frame", frame)
+
+    key = cv2.waitKey(1) & 0xff
+    if key == ord('q'):
+        break
+
+
+cv2.destroyAllWindows()
+vs.stop()
