@@ -9,6 +9,7 @@ import cv2
 import imutils
 from imutils.video import WebcamVideoStream
 
+#分類器:"haar"特徵主要用於人臉檢測，“hog”特徵主要用於行人檢測，“lbp”特徵主要用於人臉識別
 detectors = {
     "eye": os.path.sep.join([ntpath.dirname(cv2.__file__), 'data', 'haarcascade_eye.xml']),
     "face": os.path.sep.join([ntpath.dirname(cv2.__file__), 'data', 'haarcascade_frontalface_default.xml'])
