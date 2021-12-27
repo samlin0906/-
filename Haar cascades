@@ -29,12 +29,12 @@ time.sleep(1)
 while True:
     frame = vs.read()
     img = frame.copy()
-    img = imutils.resize(img, width=300)                                  #等比例缩放
+    img = imutils.resize(img, width=300)                                                                 #等比例缩放
 
     part = "eye"
     gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-    detector = cv2.CascadeClassifier(detectors[part])                     #Haar cascades
-    rects = detector.detectMultiScale(gray, scaleFactor=1.1, minNeighbors=3, minSize=(15, 15))
+    detector = cv2.CascadeClassifier(detectors[part])                                                    #級聯分類器
+    rects = detector.detectMultiScale(gray, scaleFactor=1.1, minNeighbors=3, minSize=(15, 15))           #(縮放比例, 檢測相鄰矩陣是否符合, 最小檢測框)
 
     # 繪出偵測結果 (記得將偵測的座標轉回原本的frame大小)
     ratio = frame.shape[1] / img.shape[1]
