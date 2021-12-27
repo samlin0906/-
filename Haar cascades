@@ -37,9 +37,9 @@ while True:
     rects = detector.detectMultiScale(gray, scaleFactor=1.1, minNeighbors=3, minSize=(15, 15))           #(縮放比例, 檢測相鄰矩陣是否符合, 最小檢測框)
 
     # 繪出偵測結果
-    ratio = frame.shape[1] / img.shape[1]                                                                #將偵測的座標轉回原本的frame大小
+    ratio = frame.shape[1] / img.shape[1]                                                                #640/ 300                                                               
     for rect in rects:
-        rect = rect * ratio
+        rect = rect * ratio                                                                              ##將偵測的座標轉回原本的frame大小
         (x, y, w, h) = rect.astype("int")
         cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 0, 255), 2)
 
