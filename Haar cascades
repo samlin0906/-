@@ -1,4 +1,6 @@
 #人臉或眼睛偵測
+#AdaBoost classifier
+#哈爾特徵（Haar-like features）
 
 import argparse
 import ntpath
